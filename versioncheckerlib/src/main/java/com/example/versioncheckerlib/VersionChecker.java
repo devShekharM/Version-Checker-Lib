@@ -7,25 +7,25 @@ import org.jsoup.nodes.Document;
 
 public class VersionChecker {
 
-    private static String appUrl, currentVersion, latestVersion;
+    private static String latestVersion;
 
-    public static void check() {
-        new GetLatestVersionAsync().execute();
+    public static void check(String appUrl, String version) {
+        new GetLatestVersionAsync(appUrl, version).execute();
     }
 
     static class GetLatestVersionAsync extends AsyncTask<String, String, JSONObject> {
 
         //private Context mContext;
         //private ProgressDialog progressDialog;
+        private String currentVersion, url;
 
-        /*
-        GetLatestVersionAsync(Context context, String version, String url) {
-            this.mContext = context;
-            this.currentVersion = version;
+
+        GetLatestVersionAsync(String version, String url) {
             this.url = url;
+            this.currentVersion = version;
         }
 
-
+        /*
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -39,7 +39,7 @@ public class VersionChecker {
         protected JSONObject doInBackground(String... strings) {
             try {
                 //It retrieves the latest version by scraping the content of current version from play store at runtime
-                Document doc = Jsoup.connect(appUrl).get();
+                Document doc = Jsoup.connect(url).get();
                 latestVersion = doc.getElementsByClass("htlgb").get(6).text();
 
             } catch (Exception e) {

@@ -10,6 +10,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.example.versioncheckerlib.VersionChecker;
+
 public class MainActivity extends AppCompatActivity {
 
     String currentVersion, latestVersion;
@@ -36,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         }
         currentVersion = pInfo.versionName;
 
+        VersionChecker.check(APP_URL, currentVersion);
         //new GetLatestVersion().execute();
     }
 
@@ -63,48 +66,4 @@ public class MainActivity extends AppCompatActivity {
         dialog = builder.show();
     }
 
-    /*class GetLatestVersion extends AsyncTask<String, String, JSONObject> {
-
-        private ProgressDialog progressDialog;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressDialog = new ProgressDialog(MainActivity.this);
-            progressDialog.setMessage("Checking for updates...");
-            progressDialog.show();
-        }
-
-        @Override
-        protected JSONObject doInBackground(String... params) {
-            try {
-                //It retrieves the latest version by scraping the content of current version from play store at runtime
-                Document doc = Jsoup.connect(APP_URL).get();
-                latestVersion = doc.getElementsByClass("htlgb").get(6).text();
-
-            }catch (Exception e){
-                e.printStackTrace();
-
-            }
-
-            return new JSONObject();
-        }
-
-        @Override
-        protected void onPostExecute(JSONObject jsonObject) {
-            if (progressDialog.isShowing())
-                progressDialog.dismiss();
-
-            if(latestVersion!=null) {
-                if (!currentVersion.equalsIgnoreCase(latestVersion)){
-                    if(!isFinishing()){ //This would help to prevent Error : BinderProxy@45d459c0 is not valid; is your activity running? error
-                        showUpdateDialog();
-                    }
-                }
-            }
-            *//*else
-                background.start();*//*
-            super.onPostExecute(jsonObject);
-        }
-    }*/
 }
